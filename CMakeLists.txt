@@ -2,23 +2,27 @@ cmake_minimum_required(VERSION 3.13)
 
 project(SDLiOSTest VERSION 0.1.0)
 
-if(PLATFORM STREQUAL "SIMULATOR64") # iOS Simulator
-    list(APPEND INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/inc/sdl2")
-    list(APPEND LINK_LIBS
-        "${PROJECT_SOURCE_DIR}/lib/libSDL2.a"
-        #"${PROJECT_SOURCE_DIR}/lib/libSDL2main.a"
-        "-framework AudioToolbox"
-        "-framework AVFoundation"
-        "-framework Foundation"
-        "-framework CoreAudio"
-        "-framework CoreGraphics"
-        "-framework CoreHaptics"
-        "-framework CoreMotion"
-        "-framework GameController"
-        "-framework Metal"
-        "-framework OpenGLES"
-        "-framework QuartzCore"
-        "-framework UIKit")
+# Dependencies
+set(INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/inc/sdl2")
+set(LINK_LIBS
+    "-framework AudioToolbox"
+    "-framework AVFoundation"
+    "-framework Foundation"
+    "-framework CoreAudio"
+    "-framework CoreGraphics"
+    "-framework CoreHaptics"
+    "-framework CoreMotion"
+    "-framework GameController"
+    "-framework Metal"
+    "-framework OpenGLES"
+    "-framework QuartzCore"
+    "-framework UIKit")
+
+# Target-specific dependencies
+if(PLATFORM STREQUAL "OS64") # iOS
+    list(APPEND LINK_LIBS "${PROJECT_SOURCE_DIR}/lib/libSDL2-ios.a")
+elseif(PLATFORM STREQUAL "SIMULATOR64") # iOS Simulator
+    list(APPEND LINK_LIBS "${PROJECT_SOURCE_DIR}/lib/libSDL2-ios-sim.a")
 else()
     message(FATAL_ERROR "Could not detect platform!")
 endif()

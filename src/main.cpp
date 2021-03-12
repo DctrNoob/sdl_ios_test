@@ -93,6 +93,14 @@ int main(int, char**) {
   SDL_GetVersion(&version);
   SDL_Log("SDL version: %d.%d.%d\n", static_cast<int>(version.major), static_cast<int>(version.minor), static_cast<int>(version.patch));
   
+  auto basePath = SDL_GetBasePath();
+  SDL_Log("Base path: %s\n", basePath);
+  SDL_free(basePath);
+  
+  auto prefPath = SDL_GetPrefPath("com.test", "SDLiOSTest");
+  SDL_Log("Pref path: %s\n", prefPath);
+  SDL_free(prefPath);
+  
   // Create window
   SDL_SetHint(SDL_HINT_OPENGL_ES_DRIVER, "1");
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_EGL, 1);
